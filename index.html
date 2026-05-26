@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Interactivo de Chile</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="tt" id="tt">
+        <div class="tt-n" id="ttN"></div>
+        <div class="tt-c" id="ttC"></div>
+    </div>
+
+    <div class="ptrack">
+        <div class="pfill" id="pf"></div>
+    </div>
+
+    <div class="shint" id="sh">
+        <span>Scroll para explorar Chile</span>
+        <span class="arr">↓</span>
+    </div>
+
+    <div class="icard" id="ic">
+        <div class="inum" id="icN"></div>
+        <div class="iname" id="icNm"></div>
+        <div class="iclim" id="icCl"></div>
+        <div class="idesc" id="icDs"></div>
+    </div>
+
+    <div class="animals-container" id="animalsContainer"></div>
+
+    <div class="animal-detail" id="animalDetail">
+        <button class="ad-close" id="adClose">✕</button>
+        <img id="adImg" src="" alt="">
+        <div class="ad-body">
+            <div class="ad-label">Fauna regional</div>
+            <div class="ad-name" id="adName"></div>
+            <div class="ad-desc" id="adDesc"></div>
+        </div>
+    </div>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1>🇨🇱 Chile</h1>
+            <p>Scroll para recorrer de norte a sur</p>
+        </div>
+        <ul class="region-list" id="rl">
+            <li data-r="CL-AP">
+                <span class="rdot" style="background:#C4956A"></span>
+                <span class="rnum">XV</span>
+                <span class="rname">Arica y Parinacota</span>
+                <span class="rtag">Desértico</span>
+            </li>
+            <li data-r="CL-TA">
+                <span class="rdot" style="background:#BF8C5A"></span>
+                <span class="rnum">I</span>
+                <span class="rname">Tarapacá</span>
+                <span class="rtag">Desértico</span>
+            </li>
+            <li data-r="CL-AN">
+                <span class="rdot" style="background:#B8834E"></span>
+                <span class="rnum">II</span>
+                <span class="rname">Antofagasta</span>
+                <span class="rtag">Hiperárido</span>
+            </li>
+            <li data-r="CL-AT">
+                <span class="rdot" style="background:#A97B4B"></span>
+                <span class="rnum">III</span>
+                <span class="rname">Atacama</span>
+                <span class="rtag">Árido</span>
+            </li>
+            <li data-r="CL-CO">
+                <span class="rdot" style="background:#8B7355"></span>
+                <span class="rnum">IV</span>
+                <span class="rname">Coquimbo</span>
+                <span class="rtag">Semiárido</span>
+            </li>
+            <li data-r="CL-VS">
+                <span class="rdot" style="background:#7A7A42"></span>
+                <span class="rnum">V</span>
+                <span class="rname">Valparaíso</span>
+                <span class="rtag">Mediterráneo</span>
+            </li>
+            <li data-r="CL-RM">
+                <span class="rdot" style="background:#6B8E23"></span>
+                <span class="rnum">RM</span>
+                <span class="rname">Metropolitana</span>
+                <span class="rtag">Mediterráneo</span>
+            </li>
+            <li data-r="CL-LI">
+                <span class="rdot" style="background:#5E8B30"></span>
+                <span class="rnum">VI</span>
+                <span class="rname">O'Higgins</span>
+                <span class="rtag">Mediterráneo</span>
+            </li>
+            <li data-r="CL-ML">
+                <span class="rdot" style="background:#4F8735"></span>
+                <span class="rnum">VII</span>
+                <span class="rname">Maule</span>
+                <span class="rtag">Mediterráneo</span>
+            </li>
+            <li data-r="CL-NU">
+                <span class="rdot" style="background:#488040"></span>
+                <span class="rnum">XVI</span>
+                <span class="rname">Ñuble</span>
+                <span class="rtag">Templado</span>
+            </li>
+            <li data-r="CL-BI">
+                <span class="rdot" style="background:#3D7A45"></span>
+                <span class="rnum">VIII</span>
+                <span class="rname">Biobío</span>
+                <span class="rtag">Templado</span>
+            </li>
+            <li data-r="CL-AR">
+                <span class="rdot" style="background:#2E7548"></span>
+                <span class="rnum">IX</span>
+                <span class="rname">La Araucanía</span>
+                <span class="rtag">Templado</span>
+            </li>
+            <li data-r="CL-LR">
+                <span class="rdot" style="background:#267050"></span>
+                <span class="rnum">XIV</span>
+                <span class="rname">Los Ríos</span>
+                <span class="rtag">Lluvioso</span>
+            </li>
+            <li data-r="CL-LL">
+                <span class="rdot" style="background:#1E6B55"></span>
+                <span class="rnum">X</span>
+                <span class="rname">Los Lagos</span>
+                <span class="rtag">Lluvioso</span>
+            </li>
+            <li data-r="CL-AI">
+                <span class="rdot" style="background:#2B7D80"></span>
+                <span class="rnum">XI</span>
+                <span class="rname">Aysén</span>
+                <span class="rtag">Subpolar</span>
+            </li>
+            <li data-r="CL-MA">
+                <span class="rdot" style="background:#5A9EB5"></span>
+                <span class="rnum">XII</span>
+                <span class="rname">Magallanes</span>
+                <span class="rtag">Polar</span>
+            </li>
+        </ul>
+    </aside>
+
+    <div class="ocean"></div>
+    <div class="ocean-text">Océano Pacífico</div>
+
+    <div class="map-area">
+        <object id="svgObj" type="image/svg+xml" data="chile.svg"></object>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
