@@ -101,7 +101,6 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0f1923;
 .animal-detail .ad-name{font-size:1.1rem}
 .animal-detail .ad-desc{font-size:.85rem}
 .shint{bottom:16px}
-.tt{display:none!important}
 .mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;height:60px;background:rgba(10,18,28,.95);border-top:1px solid rgba(126,200,227,.15);backdrop-filter:blur(20px);z-index:100;align-items:center;justify-content:space-between;padding:0 16px}
 .mobile-nav button{background:none;border:1px solid rgba(126,200,227,.2);color:#7ec8e3;padding:8px 20px;border-radius:20px;font-size:1.2rem;cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent}
 .mobile-nav button:active{background:rgba(126,200,227,.15);transform:scale(.95)}

@@ -1,5 +1,7 @@
 let svgDoc=null,svgPaths=[],curIdx=-1;
 const svgObj=document.getElementById('svgObj'),mapArea=document.querySelector('.map-area'),listItems=document.querySelectorAll('#rl li'),tt=document.getElementById('tt'),ttN=document.getElementById('ttN'),ttC=document.getElementById('ttC');
+const canHover=matchMedia('(hover:hover) and (pointer:fine)').matches;
+function hideTooltip(){tt.classList.remove('show');tt.style.left='-9999px';tt.style.top='-9999px'}
 
 svgObj.addEventListener('load',function(){
 svgDoc=svgObj.contentDocument;
@@ -7,10 +9,12 @@ svgPaths=Array.from(svgDoc.querySelectorAll('path[id]'));
 svgPaths.forEach(p=>{const c=COLORS[p.id];if(!c)return;p.style.cssText='fill:'+c+';stroke:rgba(255,255,255,.12);stroke-width:.5;cursor:pointer;transition:all .5s'});
 svgPaths.forEach(p=>{
 const r=R.find(x=>x.id===p.id);if(!r)return;
+if(canHover){
 p.addEventListener('mouseenter',()=>{ttN.textContent=r.name;ttC.textContent=r.clim;tt.classList.add('show');p.style.filter='brightness(1.4) saturate(1.4) drop-shadow(0 0 10px rgba(255,255,255,.25))';p.style.stroke='rgba(255,255,255,.8)';p.style.strokeWidth='1.5';p.style.opacity='1'});
 p.addEventListener('mousemove',e=>{const b=tt.getBoundingClientRect();let x=e.clientX-b.width/2,y=e.clientY-b.height-12;if(x<5)x=5;if(x+b.width>innerWidth-5)x=innerWidth-b.width-5;if(y<5)y=e.clientY+18;tt.style.left=x+'px';tt.style.top=y+'px'});
-p.addEventListener('mouseleave',()=>{tt.classList.remove('show');applyFocus(curIdx)});
-p.addEventListener('click',()=>{const i=R.findIndex(x=>x.id===p.id);if(i>=0)scrollToRegion(i)})
+p.addEventListener('mouseleave',()=>{hideTooltip();applyFocus(curIdx)});
+}
+p.addEventListener('click',()=>{hideTooltip();const i=R.findIndex(x=>x.id===p.id);if(i>=0)scrollToRegion(i)})
 });
 onScroll()
 });
@@ -40,6 +44,7 @@ document.getElementById('icCl').textContent=r.clim;
 document.getElementById('icDs').textContent=r.desc;
 document.getElementById('ic').classList.add('show');
 document.getElementById('animalDetail').classList.remove('show');
+hideTooltip();
 spawnAnimals(r,vw,vh);
 updateMobileNav()
 }
@@ -74,8 +79,8 @@ if(h)e.preventDefault()
 });
 
 let touchY=0,touchDone=false;
-addEventListener('touchstart',e=>{touchY=e.touches[0].clientY;touchDone=false},{passive:true});
-addEventListener('touchmove',e=>{if(touchDone)return;const d=touchY-e.touches[0].clientY;if(Math.abs(d)>40){touchDone=true;scrollToRegion((curIdx>=0?curIdx:0)+(d>0?1:-1))}},{passive:true});
+addEventListener('touchstart',e=>{touchY=e.touches[0].clientY;touchDone=false;hideTooltip()},{passive:true});
+addEventListener('touchmove',e=>{hideTooltip();if(touchDone)return;const d=touchY-e.touches[0].clientY;if(Math.abs(d)>40){touchDone=true;scrollToRegion((curIdx>=0?curIdx:0)+(d>0?1:-1))}},{passive:true});
 addEventListener('touchend',()=>{touchDone=false});
 
 listItems.forEach(li=>{li.addEventListener('click',()=>{const i=R.findIndex(x=>x.id===li.dataset.r);if(i>=0)scrollToRegion(i)})});
@@ -90,7 +95,7 @@ if(y+ch>vh-40){x=sx-(cw+g);y=sy+(i-Math.floor((vh-80)/(ch+g)))*(ch+g)}
 if(x<20)x=20;if(y<20)y=20;if(y+ch>vh-(isMobile()?80:20))y=vh-ch-(isMobile()?80:20);
 const b=document.createElement('div');b.className='animal-bubble';b.style.left=x+'px';b.style.top=y+'px';
 b.innerHTML='<img src="'+a.img+'" alt="'+a.nombre+'" onerror="this.style.background=\'rgba(126,200,227,.1)\'"><div class="ab-name">'+a.nombre+'</div>';
-b.addEventListener('click',e=>{e.stopPropagation();showAnimalDetail(a,b)});
+b.addEventListener('click',e=>{e.stopPropagation();hideTooltip();showAnimalDetail(a,b)});
 c.appendChild(b);setTimeout(()=>b.classList.add('show'),200+i*150)
 })
 }
@@ -100,6 +105,7 @@ const d=document.getElementById('animalDetail'),rc=el.getBoundingClientRect();
 document.getElementById('adImg').src=a.img;
 document.getElementById('adName').textContent=a.nombre;
 document.getElementById('adDesc').textContent=a.desc;
+hideTooltip();
 if(isMobile()){d.style.left='12px';d.style.top='auto';d.style.bottom='72px'}
 else{let l=rc.left-390,t=rc.top;if(l<290){l=rc.left;t=rc.bottom+10}if(t+320>innerHeight)t=innerHeight-340;if(t<10)t=10;if(l<290)l=290;d.style.left=l+'px';d.style.top=t+'px'}
 d.classList.add('show')
@@ -108,9 +114,7 @@ d.classList.add('show')
 document.getElementById('adClose').addEventListener('click',e=>{e.stopPropagation();document.getElementById('animalDetail').classList.remove('show')});
 document.addEventListener('click',e=>{if(!e.target.closest('.animal-bubble')&&!e.target.closest('.animal-detail'))document.getElementById('animalDetail').classList.remove('show')});
 
-// MOBILE
 function isMobile(){return innerWidth<=850}
-
 function mobileNavigate(dir){scrollToRegion((curIdx>=0?curIdx:0)+dir)}
 
 function updateMobileNav(){
@@ -124,18 +128,15 @@ ml.forEach(li=>li.classList.remove('active'));
 const am=document.querySelector('#rlMobile [data-r="'+r.id+'"]');if(am)am.classList.add('active')
 }
 
-addEventListener('scroll',()=>{if(isMobile())updateMobileNav()});
+addEventListener('scroll',()=>{if(isMobile()){updateMobileNav();hideTooltip()}});
+addEventListener('resize',()=>{if(innerWidth<=850)hideTooltip()});
 
 const mrb=document.getElementById('mobileRegionsBtn'),mrp=document.getElementById('mobileRegionsPanel'),pc=document.getElementById('panelClose');
-if(mrb)mrb.addEventListener('click',()=>mrp.classList.add('open'));
+if(mrb)mrb.addEventListener('click',()=>{hideTooltip();mrp.classList.add('open')});
 if(pc)pc.addEventListener('click',()=>mrp.classList.remove('open'));
 document.querySelectorAll('#rlMobile li').forEach(li=>{
 li.addEventListener('click',()=>{const i=R.findIndex(x=>x.id===li.dataset.r);if(i>=0){scrollToRegion(i);mrp.classList.remove('open')}})
 });
 
-// Expose for HTML onclick
 window.mobileNavigate=mobileNavigate;
 updateMobileNav();
-
-addEventListener('resize',()=>{if(isMobile())tt.classList.remove('show')});
-addEventListener('touchstart',()=>{tt.classList.remove('show')},{passive:true});
