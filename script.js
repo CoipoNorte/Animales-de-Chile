@@ -136,3 +136,6 @@ li.addEventListener('click',()=>{const i=R.findIndex(x=>x.id===li.dataset.r);if(
 // Expose for HTML onclick
 window.mobileNavigate=mobileNavigate;
 updateMobileNav();
+
+addEventListener('resize',()=>{if(isMobile())tt.classList.remove('show')});
+addEventListener('touchstart',()=>{tt.classList.remove('show')},{passive:true});
