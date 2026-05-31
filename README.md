@@ -1,5 +1,5 @@
 # Animales-de-Chile
-# ![🇨🇱 Mapa Interactivo de Chile](https://coiponorte.github.io/Animales-de-Chile/)
+# [🇨🇱 Mapa Interactivo de Chile](https://coiponorte.github.io/Animales-de-Chile/)
 
 Aplicación web interactiva que permite explorar las 16 regiones de Chile mediante scroll, click o teclado. Incluye información geográfica, climática y fauna representativa de cada región.
 
